@@ -21,12 +21,18 @@ type EPPWrapper struct {
 
 // Command represents the command structure in an EPP request
 type Command struct {
-	Login     *LoginCommand    `xml:"login,omitempty"`
-	Check     *CheckCommand    `xml:"check,omitempty"`
-	Register  *RegisterCommand `xml:"create,omitempty"`
-	Logout    string           `xml:"logout,omitempty"`
-	Extension *Extension       `xml:"extension,omitempty"`
-	ClTRID    string           `xml:"clTRID"`
+	Login     *LoginCommand  `xml:"login,omitempty"`
+	Check     *CheckCommand  `xml:"check,omitempty"`
+	Create    *CreateCommand `xml:"create,omitempty"`
+	Logout    string         `xml:"logout,omitempty"`
+	Extension *Extension     `xml:"extension,omitempty"`
+	ClTRID    string         `xml:"clTRID"`
+}
+
+type CreateCommand struct {
+	Text         string                `xml:",chardata"`
+	CreateDomain *RegisterDomainStruct `xml:"domain:create,omitempty"`
+	CreateHost   *CreateHost           `xml:"host:create"`
 }
 
 // Extension represents the common extension data

@@ -7,16 +7,15 @@ import (
 	"github.com/khelaia/domingo/pkg/domingo/xmltypes"
 )
 
-type RegisterDomainType struct {
-	CreationDate   string
-	ExpirationDate string
-	Name           string
+type CreateHostResponse struct {
+	Message      string
+	HostName     string
+	CreationDate string
 }
 
-// RegisterDomain is method to register domain in Registrar system
-func RegisterDomain(client *domingo.Client, domainName string, authCode string, unit string, period string) (*RegisterDomainType, error) {
+func CreateHost(client *domingo.Client, hostName string, ipAddress string) (*CreateHostResponse, error) {
 
-	registerReq := &xmltypes.EPPWrapper{
+	createHostReq := &xmltypes.EPPWrapper{
 		Xmlns:                 "urn:ietf:params:xml:ns:epp-1.0",
 		XmlnsDomain:           "urn:ietf:params:xml:ns:domain-1.0",
 		XmlnsContact:          "urn:ietf:params:xml:ns:contact-1.0",
@@ -31,14 +30,11 @@ func RegisterDomain(client *domingo.Client, domainName string, authCode string, 
 
 		Command: &xmltypes.Command{
 			Create: &xmltypes.CreateCommand{
-				CreateDomain: &xmltypes.RegisterDomainStruct{
-					Name: domainName,
-					Period: &xmltypes.RegisterDomainPeriod{
-						Unit: unit,
-						Text: period,
-					},
-					AuthInfo: &xmltypes.RegisterDomainAuthInfo{
-						Pw: authCode,
+				CreateHost: &xmltypes.CreateHost{
+					Name: hostName,
+					Addr: &xmltypes.CreateHostAddr{
+						Ip:   "v4",
+						Text: ipAddress,
 					},
 				},
 			},
@@ -52,24 +48,25 @@ func RegisterDomain(client *domingo.Client, domainName string, authCode string, 
 		},
 	}
 
-	response, err := sendEPPRequest(client, registerReq)
+	response, err := sendEPPRequest(client, createHostReq)
 	if err != nil {
-		return nil, fmt.Errorf("domain register failed: %w", err)
+		return nil, fmt.Errorf("create host failed: %s", err)
 	}
 
-	var eppResponse xmltypes.EPPRegisterDomainResponse
+	var eppResponse xmltypes.EPPCreateHostResponse
+
 	err = xml.Unmarshal([]byte(response), &eppResponse)
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse XML: %w", err)
+		return nil, fmt.Errorf("failed to parse XML: %s", err)
 	}
 
 	if eppResponse.Response.Result.Code != "1000" {
 		return nil, fmt.Errorf(eppResponse.Response.Result.Msg)
 	}
-
-	return &RegisterDomainType{
-		Name:           eppResponse.Response.ResData.CreData.Name,
-		CreationDate:   eppResponse.Response.ResData.CreData.CrDate,
-		ExpirationDate: eppResponse.Response.ResData.CreData.ExDate,
+	msg := "Host Created"
+	return &CreateHostResponse{
+		Message:      msg,
+		HostName:     eppResponse.Response.ResData.CreData.Name,
+		CreationDate: eppResponse.Response.ResData.CreData.CrDate,
 	}, nil
 }

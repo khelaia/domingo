@@ -2,23 +2,17 @@ package xmltypes
 
 import "encoding/xml"
 
-type RegisterDomainPeriod struct {
+type CreateHostAddr struct {
 	Text string `xml:",chardata"`
-	Unit string `xml:"unit,attr"`
+	Ip   string `xml:"ip,attr"`
+}
+type CreateHost struct {
+	Text string          `xml:",chardata"`
+	Name string          `xml:"host:name"`
+	Addr *CreateHostAddr `xml:"host:addr"`
 }
 
-type RegisterDomainAuthInfo struct {
-	Text string `xml:",chardata"`
-	Pw   string `xml:"domain:pw"`
-}
-type RegisterDomainStruct struct {
-	Text     string                  `xml:",chardata"`
-	Name     string                  `xml:"domain:name"`
-	Period   *RegisterDomainPeriod   `xml:"domain:period"`
-	AuthInfo *RegisterDomainAuthInfo `xml:"domain:authInfo"`
-}
-
-type EPPRegisterDomainResponse struct {
+type EPPCreateHostResponse struct {
 	XMLName  xml.Name `xml:"epp"`
 	Text     string   `xml:",chardata"`
 	Xmlns    string   `xml:"xmlns,attr"`
@@ -33,10 +27,9 @@ type EPPRegisterDomainResponse struct {
 			Text    string `xml:",chardata"`
 			CreData struct {
 				Text   string `xml:",chardata"`
-				Domain string `xml:"domain,attr"`
+				Host   string `xml:"xmlns:host,attr"`
 				Name   string `xml:"name"`
 				CrDate string `xml:"crDate"`
-				ExDate string `xml:"exDate"`
 			} `xml:"creData"`
 		} `xml:"resData"`
 		TrID struct {

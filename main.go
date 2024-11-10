@@ -34,6 +34,12 @@ func main() {
 		fmt.Println(registerData.Name, registerData.CreationDate, registerData.ExpirationDate)
 	*/
 
+	createHost, err := methods.CreateHost(client, "ns5.ditokhelaia11.com", "104.21.29.230")
+	if err != nil {
+		log.Fatalf("Failed to create host %s", err)
+	}
+	fmt.Println(createHost.Message, createHost.HostName, createHost.CreationDate)
+
 	if err := methods.Logout(client); err != nil {
 		log.Fatalf("Logout failed: %v", err)
 	}
