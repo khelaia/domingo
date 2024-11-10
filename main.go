@@ -26,14 +26,12 @@ func main() {
 	}
 	fmt.Println(checkData.Name, checkData.IsAvailable, checkData.Reason)
 
-	/*
-		//Register Domain
-		registerData, err := methods.RegisterDomain(client, "ditokhelaia11.com", "TXzRY#$EZ&o2;)B%[[4-npB8hNK0s,PP", "y", "1")
-		if err != nil {
-			log.Fatalf("Register Domain Failed: %v", err)
-		}
-		fmt.Println(registerData.Name, registerData.CreationDate, registerData.ExpirationDate)
-	*/
+	//Register Domain
+	registerData, err := methods.RegisterDomain(client, "ditokhelaia12.com", "TXzRY#$EZ&o2;)B%[[4-npB8hNK0s,PP", "y", "1")
+	if err != nil {
+		log.Fatalf("Register Domain Failed: %v", err)
+	}
+	fmt.Println(registerData.Name, registerData.CreationDate, registerData.ExpirationDate)
 
 	/*
 		//Create Nameservers
@@ -44,14 +42,16 @@ func main() {
 		fmt.Println(createHost.Message, createHost.HostName, createHost.CreationDate)
 	*/
 
-	nameservers := []string{"ns1.ditokhelaia11.com", "ns2.ditokhelaia11.com", "ns3.ditokhelaia11.com"}
-	attachData, err := methods.AttachNameservers(client, "ditokhelaia11.com", nameservers)
-	if err != nil {
-		log.Fatalf("Failed to attach host to domain %s", err)
-	}
-	msg := *attachData
+	/*
+		nameservers := []string{"ns1.ditokhelaia11.com", "ns2.ditokhelaia11.com", "ns3.ditokhelaia11.com"}
+		attachData, err := methods.AttachNameservers(client, "ditokhelaia11.com", nameservers)
+		if err != nil {
+			log.Fatalf("Failed to attach host to domain %s", err)
+		}
+		msg := *attachData
 
-	fmt.Println(msg)
+		fmt.Println(msg)
+	*/
 
 	if err := methods.Logout(client); err != nil {
 		log.Fatalf("Logout failed: %v", err)
