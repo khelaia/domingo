@@ -24,8 +24,7 @@ type Client struct {
 }
 
 // NewClient initializes a new Client with TLS
-func NewClient() (*Client, error) {
-	cfg := config.LoadConfig()
+func NewClient(cfg *config.EPPConfig) (*Client, error) {
 	clientCert, err := tls.LoadX509KeyPair(cfg.ClientCertFile, cfg.ClientKeyFile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to load client certificate and private key: %w", err)
