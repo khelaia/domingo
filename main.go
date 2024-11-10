@@ -27,6 +27,7 @@ func main() {
 	fmt.Println(checkData.Name, checkData.IsAvailable, checkData.Reason)
 
 	/*
+		//Register Domain
 		registerData, err := methods.RegisterDomain(client, "ditokhelaia11.com", "TXzRY#$EZ&o2;)B%[[4-npB8hNK0s,PP", "y", "1")
 		if err != nil {
 			log.Fatalf("Register Domain Failed: %v", err)
@@ -34,11 +35,23 @@ func main() {
 		fmt.Println(registerData.Name, registerData.CreationDate, registerData.ExpirationDate)
 	*/
 
-	createHost, err := methods.CreateHost(client, "ns5.ditokhelaia11.com", "104.21.29.230")
+	/*
+		//Create Nameservers
+		createHost, err := methods.CreateHost(client, "ns5.ditokhelaia11.com", "104.21.29.230")
+		if err != nil {
+			log.Fatalf("Failed to create host %s", err)
+		}
+		fmt.Println(createHost.Message, createHost.HostName, createHost.CreationDate)
+	*/
+
+	nameservers := []string{"ns1.ditokhelaia11.com", "ns2.ditokhelaia11.com", "ns3.ditokhelaia11.com"}
+	attachData, err := methods.AttachNameservers(client, "ditokhelaia11.com", nameservers)
 	if err != nil {
-		log.Fatalf("Failed to create host %s", err)
+		log.Fatalf("Failed to attach host to domain %s", err)
 	}
-	fmt.Println(createHost.Message, createHost.HostName, createHost.CreationDate)
+	msg := *attachData
+
+	fmt.Println(msg)
 
 	if err := methods.Logout(client); err != nil {
 		log.Fatalf("Logout failed: %v", err)

@@ -24,6 +24,7 @@ type Command struct {
 	Login     *LoginCommand  `xml:"login,omitempty"`
 	Check     *CheckCommand  `xml:"check,omitempty"`
 	Create    *CreateCommand `xml:"create,omitempty"`
+	Update    *UpdateCommand `xml:"update,omitempty"`
 	Logout    string         `xml:"logout,omitempty"`
 	Extension *Extension     `xml:"extension,omitempty"`
 	ClTRID    string         `xml:"clTRID"`
@@ -33,6 +34,11 @@ type CreateCommand struct {
 	Text         string                `xml:",chardata"`
 	CreateDomain *RegisterDomainStruct `xml:"domain:create,omitempty"`
 	CreateHost   *CreateHost           `xml:"host:create"`
+}
+
+type UpdateCommand struct {
+	Text              string             `xml:",chardata"`
+	UpdateDomainHosts *UpdateDomainHosts `xml:"domain:update"`
 }
 
 // Extension represents the common extension data
