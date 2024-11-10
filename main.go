@@ -5,6 +5,7 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/khelaia/domingo/pkg/domingo"
 	"github.com/khelaia/domingo/pkg/domingo/config"
+	"github.com/khelaia/domingo/pkg/domingo/constants"
 	"github.com/khelaia/domingo/pkg/domingo/methods"
 	"log"
 	"os"
@@ -26,13 +27,14 @@ func main() {
 	}
 	fmt.Println(checkData.Name, checkData.IsAvailable, checkData.Reason)
 
-	//Register Domain
-	registerData, err := methods.RegisterDomain(client, "ditokhelaia12.com", "TXzRY#$EZ&o2;)B%[[4-npB8hNK0s,PP", "y", "1")
-	if err != nil {
-		log.Fatalf("Register Domain Failed: %v", err)
-	}
-	fmt.Println(registerData.Name, registerData.CreationDate, registerData.ExpirationDate)
-
+	/*
+		//Register Domain
+		registerData, err := methods.RegisterDomain(client, "ditokhelaia12.com", "TXzRY#$EZ&o2;)B%[[4-npB8hNK0s,PP", "y", "1")
+		if err != nil {
+			log.Fatalf("Register Domain Failed: %v", err)
+		}
+		fmt.Println(registerData.Name, registerData.CreationDate, registerData.ExpirationDate)
+	*/
 	/*
 		//Create Nameservers
 		createHost, err := methods.CreateHost(client, "ns5.ditokhelaia11.com", "104.21.29.230")
@@ -52,6 +54,14 @@ func main() {
 
 		fmt.Println(msg)
 	*/
+
+	statuses := []constants.ClientStatus{constants.StatusClientUpdateProhibited, constants.StatusClientRenewProhibited}
+	addStatusData, err := methods.AddStatuses(client, "ditokhelaia11.com", statuses)
+	if err != nil {
+		log.Fatalf("Failed to add statuses to domain %s", err)
+	}
+	msg := *addStatusData
+	fmt.Println(msg)
 
 	if err := methods.Logout(client); err != nil {
 		log.Fatalf("Logout failed: %v", err)

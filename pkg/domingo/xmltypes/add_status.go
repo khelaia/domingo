@@ -1,13 +1,16 @@
 package xmltypes
 
-import "encoding/xml"
+import (
+	"encoding/xml"
+	"github.com/khelaia/domingo/pkg/domingo/constants"
+)
 
-type UpdateDomainNs struct {
-	Text    string   `xml:",chardata"`
-	HostObj []string `xml:"domain:hostObj"`
+type AddStatus struct {
+	Text string                 `xml:",chardata"`
+	S    constants.ClientStatus `xml:"s,attr"`
 }
 
-type EPPAttachNameserversResponse struct {
+type EPPAddStatusResponse struct {
 	XMLName  xml.Name `xml:"epp"`
 	Text     string   `xml:",chardata"`
 	Xmlns    string   `xml:"xmlns,attr"`

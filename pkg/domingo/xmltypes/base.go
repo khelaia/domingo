@@ -36,9 +36,21 @@ type CreateCommand struct {
 	CreateHost   *CreateHost           `xml:"host:create"`
 }
 
+type AddToDomain struct {
+	Text     string          `xml:",chardata"`
+	Ns       *UpdateDomainNs `xml:"domain:ns,omitempty"`
+	Statuses *[]AddStatus    `xml:"domain:status"`
+}
+
+type UpdateDomain struct {
+	Text string       `xml:",chardata"`
+	Name string       `xml:"domain:name"`
+	Add  *AddToDomain `xml:"domain:add"`
+}
+
 type UpdateCommand struct {
-	Text              string             `xml:",chardata"`
-	UpdateDomainHosts *UpdateDomainHosts `xml:"domain:update"`
+	Text         string        `xml:",chardata"`
+	UpdateDomain *UpdateDomain `xml:"domain:update"`
 }
 
 // Extension represents the common extension data
