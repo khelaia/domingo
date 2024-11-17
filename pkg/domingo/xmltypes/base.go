@@ -25,6 +25,7 @@ type Command struct {
 	Check     *CheckCommand  `xml:"check,omitempty"`
 	Create    *CreateCommand `xml:"create,omitempty"`
 	Update    *UpdateCommand `xml:"update,omitempty"`
+	Info      *InfoCommand   `xml:"info,omitempty"`
 	Logout    string         `xml:"logout,omitempty"`
 	Extension *Extension     `xml:"extension,omitempty"`
 	ClTRID    string         `xml:"clTRID"`

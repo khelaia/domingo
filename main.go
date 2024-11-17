@@ -5,7 +5,6 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/khelaia/domingo/pkg/domingo"
 	"github.com/khelaia/domingo/pkg/domingo/config"
-	"github.com/khelaia/domingo/pkg/domingo/constants"
 	"github.com/khelaia/domingo/pkg/domingo/methods"
 	"log"
 	"os"
@@ -55,13 +54,22 @@ func main() {
 		fmt.Println(msg)
 	*/
 
-	statuses := []constants.ClientStatus{constants.StatusClientUpdateProhibited, constants.StatusClientRenewProhibited}
-	addStatusData, err := methods.AddStatuses(client, "ditokhelaia11.com", statuses)
+	/*
+		statuses := []constants.ClientStatus{constants.StatusClientUpdateProhibited, constants.StatusClientRenewProhibited}
+		addStatusData, err := methods.AddStatuses(client, "ditokhelaia11.com", statuses)
+		if err != nil {
+			log.Fatalf("Failed to add statuses to domain %s", err)
+		}
+		msg := *addStatusData
+		fmt.Println(msg)
+	*/
+
+	infoData, err := methods.DomainInfo(client, "ditokhelaia11.com")
 	if err != nil {
-		log.Fatalf("Failed to add statuses to domain %s", err)
+		log.Fatalf("Failed to fetch domain info %s", err)
 	}
-	msg := *addStatusData
-	fmt.Println(msg)
+
+	fmt.Printf("%+v\n", infoData)
 
 	if err := methods.Logout(client); err != nil {
 		log.Fatalf("Logout failed: %v", err)
